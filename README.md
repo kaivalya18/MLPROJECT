@@ -1,41 +1,64 @@
-# MLPROJECT
-
 # Plant Disease Image Classification (Computer Vision)
 
 ## Description
-This project implements and compares multiple machine learning models — SVM with HOG features, custom CNN, and transfer learning using ResNet50 — for classifying plant diseases from leaf images in the PlantVillage dataset.  
-While SVM achieves perfect accuracy on a small subset, the CNN model demonstrates solid performance on the full test set with an accuracy of approximately 84%. However, the ResNet50 transfer learning model underperformed with an accuracy around 34%, indicating challenges in fine-tuning or dataset compatibility in this particular experiment.
+The project uses and compares several machine learning models: SVM with HOG features, custom CNN and transfer learning with ResNet50 to classify plant diseases on leaf images in the PlantVillage dataset.  
+Although SVM makes perfect accuracy in a small set, CNN model shows good performance in the entire test set with an accuracy of around 84%. The ResNet50 transfer learning version, however, performed poorly with a 34 percent accuracy, and so it is difficult to fine-tune or match the model and its output with the dataset in this specific experiment.
+
+
 
 ## Dataset Source
-- PlantVillage Dataset: Public dataset with over 54,000 images of crop leaves labeled by disease. Images are organized by class for supervised learning.
+**PlantVillage Dataset:**  
+Open access that contains more than 54,000 disease-labeled crop leaf images. Supervised learning is conducted through the organization of images by the classes.
+
+
 
 ## Methods
-- **Data Preprocessing:** Images resized to 64x64 pixels and normalized. Labels encoded using LabelEncoder. Dataset split into train, validation, and test sets maintaining class balance.
-- **SVM + HOG:** Histogram of Oriented Gradients features extracted from grayscale images; a linear SVM trained on a balanced 1500-sample subset to provide a computationally efficient baseline.  
-- **Custom CNN:** A lightweight convolutional network trained end-to-end on the full dataset with GPU acceleration, yielding an accuracy of 84%.  
-- **Transfer Learning (ResNet50):** Pretrained ResNet50 used as a feature extractor with custom classification layers; trained for a few epochs but resulted in relatively low accuracy (~34%), possibly due to insufficient fine-tuning, image size constraints, or dataset complexity.
 
-## Steps to Run
+### Data Preprocessing
+- 64x64 pixel normalised images.  
+- Encoded labels according to LabelEncoder.  
+- Split of the dataset into train, validation and test with control of the classes balance.
+
+### SVM + HOG
+- Histogram of Oriented Gradients: the extracted features are those of a grayscale image.  
+- A linear SVM based on a balanced 1500 sample subset was used to make the computationally efficient baseline.
+
+### Custom CNN
+- This is a convolutional network lightweight which has been trained in its entirety on the entire dataset and is accelerated by a GPU with an accuracy of 84%.
+
+### Transfer Learning (ResNet50)
+- Pretrained ResNet50 as a feature extractor with custom classification layers.  
+- Trained over a few epochs but achieve comparatively low accuracy (=34%), maybe because of inadequate fine-tuning, image size bottlenecks or the complexity of the dataset.
+
+
+
+## Step to Run
+
 1. Clone the repository.  
-2. Download and place the PlantVillage dataset in `data/` (or mount your Drive).  
-3. Install dependencies:  
+2. Move and install the PlantVillage data in `data/` (or mount your Drive).  
+3. Install dependencies.  
+4. Load run data, preprocess, train CNN and ResNet50 and evaluate with the supplied Jupyter notebooks or scripts.
 
 
-4. Run data loading, preprocessing, train CNN and ResNet50 models, and evaluate using the provided Jupyter notebooks or scripts.
 
-## Experiments/Results Summary
-| Model      | Accuracy (Test Set) | Observations                          |
-|------------|---------------------|-------------------------------------|
-| SVM + HOG  | 100%                | Perfect accuracy on 1500-sample subset |
-| Custom CNN | 84%                 | Good balance of speed and accuracy  |
-| ResNet50 TL| 34%                 | Poor performance, needs further tuning  |
+## Experiments / Results Summary
+
+| Model          | Accuracy (Test Set) | Observations |
+|----------------|---------------------|---------------|
+| SVM + HOG      | 100%                | Perfect accuracy on 1500 sample subset. |
+| Custom CNN     | 84%                 | Adequate speed and accuracy. |
+| ResNet50 TL    | 34%                 | Lack of good performance, requires additional fine tuning. |
+
+
 
 ## Conclusion
-SVM combined with hand-engineered HOG features achieves excellent results on a controlled subset but is limited in scalability. The custom CNN offers a strong performance on the larger dataset and is an optimal choice for this task. The transfer learning approach using ResNet50, although promising theoretically, requires additional fine-tuning, data augmentation, or larger image sizes to improve performance in this use case.
+SVM with hand-engineered HOG features obtains high results on a controlled subset but lacks scalability.  
+The conventional CNN performs well of the bigger dataset and is the best option to this task.  
+Theoretically promising transfer learning method based on ResNet50 needs further fine-tuning, data augmentation, or bigger images to work well in this application.
+
 
 ## References
-1. Hughes, D.P. and Salathé, M., PlantVillage Dataset, 2015, [Kaggle Dataset](https://www.kaggle.com/datasets/abdallahalidev/plantvillage-dataset)  
-2. He, K., Zhang, X., Ren, S., Sun, J., Deep Residual Learning for Image Recognition, CVPR 2016.  
-3. Dalal, N., Triggs, B., Histograms of Oriented Gradients for Human Detection, CVPR 2005.  
-4. Chollet, F., Deep Learning with Python, Manning Publications, 2017.
-
+- Salathé, M., Hughes, D.P. and PlantVillage Dataset, 2015, Kaggle Dataset.  
+- K., Zhang, Ren, Sun, and Deep Residual Learning Image Recognition CVPR 2016.  
+- Dalal, N., Triggs, B., Histograms of Oriented Gradients to human Detection, CVPR 2005.  
+- Chollet, F., Deep Learning using Python, Manning Publications, 2017.
