@@ -35,7 +35,7 @@ Open access that contains more than 54,000 disease-labeled crop leaf images. Sup
 ## Step to Run
 
 1. Clone the repository.  
-2. Move and install the PlantVillage data in `data/` (or mount your Drive).  
+2. Move and install the PlantVillage data in `data/` (or mount your Drive).  Dataset link- https://www.kaggle.com/datasets/emmarex/plantdisease
 3. Install dependencies.  
 4. Load run data, preprocess, train CNN and ResNet50 and evaluate with the supplied Jupyter notebooks or scripts.
 
