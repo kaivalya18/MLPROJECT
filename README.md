@@ -45,7 +45,7 @@ Open access that contains more than 54,000 disease-labeled crop leaf images. Sup
 
 | Model          | Accuracy (Test Set) | Observations |
 |----------------|---------------------|---------------|
-| SVM + HOG      | 100%                | Perfect accuracy on 1500 sample subset. |
+| SVM + HOG      | 80%                 | ok accuracy on 1500 sample subset. |
 | Custom CNN     | 84%                 | Adequate speed and accuracy. |
 | ResNet50 TL    | 34%                 | Lack of good performance, requires additional fine tuning. |
 
