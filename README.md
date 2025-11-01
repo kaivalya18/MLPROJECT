@@ -8,6 +8,7 @@ Although SVM makes perfect accuracy in a small set, CNN model shows good perform
 
 ## Dataset Source
 **PlantVillage Dataset:**  https://www.kaggle.com/datasets/emmarex/plantdisease
+
 Open access that contains more than 54,000 disease-labeled crop leaf images. Supervised learning is conducted through the organization of images by the classes.
 
 
