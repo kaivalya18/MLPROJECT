@@ -1,5 +1,3 @@
-Okay, here's the rewritten text, aiming for a more human and less AI-sounding tone:
-
 # 🌱 **Plant Disease Image Classification: SVM, CNN &amp; ResNet50 (Deep Learning &amp; Computer Vision)**
 
 This project tries out three ways to figure out plant leaf diseases using the **PlantVillage dataset**:
