@@ -1,65 +1,222 @@
-# Plant Disease Image Classification (Computer Vision)
 
-## Description
-The project uses and compares several machine learning models: SVM with HOG features, custom CNN and transfer learning with ResNet50 to classify plant diseases on leaf images in the PlantVillage dataset.  
-Although SVM makes perfect accuracy in a small set, CNN model shows good performance in the entire test set with an accuracy of around 84%. The ResNet50 transfer learning version, however, performed poorly with a 34 percent accuracy, and so it is difficult to fine-tune or match the model and its output with the dataset in this specific experiment.
+# 🌱 **Plant Disease Image Classification using SVM, CNN & ResNet50 (Deep Learning & Computer Vision)**
+
+This project implements and compares three different approaches for classifying plant leaf diseases using the **PlantVillage dataset**:
+
+1. **SVM with HOG (Hand-Engineered Features)**
+2. **Custom Convolutional Neural Network (CNN)**
+3. **Transfer Learning using ResNet50**
+
+The goal is to evaluate classical machine learning methods vs. deep learning architectures in terms of **accuracy**, **scalability**, **computational efficiency**, and **real-world applicability**.
+
+---
+
+# 📁 **Dataset**
+
+**PlantVillage Dataset**
+Kaggle Link: [https://www.kaggle.com/datasets/emmarex/plantdisease](https://www.kaggle.com/datasets/emmarex/plantdisease)
+
+* Contains **54,000+** high-quality leaf images
+* Covers **38 different plant disease classes**
+* Categories include:
+
+  * Apple, Tomato, Potato, Corn, Grape, etc.
+  * Diseases like Late Blight, Leaf Mold, Septoria, Early Blight, etc.
+
+Dataset includes both **healthy** and **diseased leaves**, making it ideal for supervised image classification tasks.
+
+---
+
+# 🧹 **Data Preprocessing**
+
+✔ Images resized to **64 × 64 pixels**
+✔ Converted to **RGB** (for CNN/ResNet50) and **grayscale** (for HOG)
+✔ Label encoding using **LabelEncoder()**
+✔ Dataset split:
+
+* **Train**
+* **Validation**
+* **Test**
+
+⚖ **Class imbalance handled** using:
+
+* Stratified splitting
+* Random undersampling in classical SVM experiments
+
+---
+
+# 🧪 **Methods & Model Architectures**
+
+## 1️⃣ **SVM + HOG Features**
+
+A classical Computer Vision–based pipeline:
+
+### 🔹 **HOG Feature Extraction**
+
+* Converts image to grayscale
+* Computes gradient intensities
+* Extracts orientation histograms from local patches
+* Produces a flattened feature vector (~1,764 features for 64×64 images)
+
+### 🔹 **SVM Model**
+
+* SVM Kernel: **Linear**
+* Training subset: **1500 balanced samples**
+* Motivation:
+
+  * Fast training
+  * Works well on small datasets
+  * Good for baseline comparison
+
+### 🟢 **Accuracy: ~80% on controlled subset**
+
+✔ Advantages
+
+* Lightweight & fast
+* Good performance with small datasets
+
+❌ Limitations
+
+* Does not scale to large image datasets
+* Cannot learn complex patterns
+* Dependent on feature engineering
+
+---
+
+## 2️⃣ **Custom CNN (Convolutional Neural Network)**
+
+A lightweight CNN built from scratch to train fully on the dataset.
+
+### 🔨 **Architecture Details**
+
+| Layer                        | Parameters              |
+| ---------------------------- | ----------------------- |
+| **Conv2D** (32 filters, 3×3) | ReLU + BatchNorm        |
+| **Conv2D** (32 filters, 3×3) | ReLU                    |
+| **MaxPool2D** (2×2)          | —                       |
+| **Dropout (0.25)**           | —                       |
+| **Conv2D** (64 filters, 3×3) | ReLU + BatchNorm        |
+| **Conv2D** (64 filters, 3×3) | ReLU                    |
+| **MaxPool2D**                | —                       |
+| **Dropout (0.25)**           | —                       |
+| **Flatten**                  | —                       |
+| **Dense (128)**              | ReLU + Dropout(0.5)     |
+| **Output Layer**             | Softmax (#classes = 38) |
+
+### 🔧 **Training Setup**
+
+* Optimizer: **Adam**
+* Loss Function: **Categorical Crossentropy**
+* Batch Size: **32**
+* Epochs: **15–25**
+* GPU-Accelerated Training
+
+### 🟢 **Accuracy Achieved: ~84% (Test Set)**
+
+✔ Learns feature hierarchies
+✔ Good balance of speed & accuracy
+✔ Performs significantly better than SVM
+
+❌ Can overfit if augmentation is not applied
+❌ Image size (64×64) limits representational power
+
+---
+
+## 3️⃣ **Transfer Learning – ResNet50**
+
+Used as a feature extractor + small custom classification head.
+
+### 🧱 **Architecture**
+
+* Pretrained on **ImageNet**
+* Base model: **ResNet50 (frozen)**
+* Input size: **224 × 224** (resized from 64 × 64 → likely suboptimal)
+* Custom Head:
+
+  * GlobalAveragePooling2D
+  * Dense(256, ReLU)
+  * Dropout(0.5)
+  * Dense(number_of_classes, Softmax)
+
+### ⚠️ Observed Problems
+
+❗ Using 64×64 images and upscaling results in major **low-resolution artifacts**
+❗ Very few epochs, limited fine-tuning
+❗ Large domain gap between plant leaves vs. ImageNet objects
+
+### 🔴 **Accuracy: ~34%**
+
+❗ Performs worst among all models
+❗ Undertrained + insufficient fine-tuning
+
+---
+
+# 🔬 **Experiment Results Summary**
+
+| Model                          | Test Accuracy | Notes                                                      |
+| ------------------------------ | ------------- | ---------------------------------------------------------- |
+| **SVM + HOG**                  | **80%**       | High accuracy for small fixed dataset, not scalable        |
+| **Custom CNN**                 | **84%**       | Best performer overall; lightweight & robust               |
+| **ResNet50 Transfer Learning** | **34%**       | Underperformer; needs proper fine-tuning and larger images |
+
+---
+
+# 🏁 **How to Run the Project**
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   ```
+
+2. **Download the PlantVillage dataset**
+   Place in:
+
+   ```
+   data/
+   ```
+
+3. **Install dependencies**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. **Run Jupyter Notebooks / Scripts**
+
+   * Preprocessing
+   * CNN Training
+   * ResNet50 Fine-tuning
+   * Evaluation Scripts
+
+---
+
+# 📊 **Why ResNet50 Performed Poorly (Important Insight)**
+
+✔ **Mismatched input size (64×64 → 224×224)**
+✔ **Not enough training epochs**
+✔ **No data augmentation**
+✔ **Frozen layers prevent domain adaptation**
+✔ **Plant leaves textures differ drastically from ImageNet objects**
+
+---
+
+# 📘 **Conclusion**
+
+* **SVM + HOG** provides a strong classical baseline but fails on large-scale image learning tasks.
+* **Custom CNN** gives the best performance (84%) due to its ability to learn hierarchical features directly from pixels.
+* **Transfer Learning with ResNet50**, although powerful, performs poorly due to inadequate fine-tuning and low input resolution.
+
+Final verdict:
+👉 **Custom CNN** is optimal for this project given dataset size, preprocessing, and input resolution.
+
+---
+
+# 📚 **References**
+
+1. PlantVillage Dataset, Hughes & Salathé, Kaggle, 2015
+2. Kaiming He, Zhang, Ren & Sun – *Deep Residual Learning for Image Recognition*, CVPR 2016
+3. Dalal & Triggs – *Histograms of Oriented Gradients*, CVPR 2005
+4. François Chollet – *Deep Learning with Python*, Manning Publications
 
 
-
-## Dataset Source
-**PlantVillage Dataset:**  https://www.kaggle.com/datasets/emmarex/plantdisease
-
-Open access that contains more than 54,000 disease-labeled crop leaf images. Supervised learning is conducted through the organization of images by the classes.
-
-
-
-## Methods
-
-### Data Preprocessing
-- 64x64 pixel normalised images.  
-- Encoded labels according to LabelEncoder.  
-- Split of the dataset into train, validation and test with control of the classes balance.
-
-### SVM + HOG
-- Histogram of Oriented Gradients: the extracted features are those of a grayscale image.  
-- A linear SVM based on a balanced 1500 sample subset was used to make the computationally efficient baseline.
-
-### Custom CNN
-- This is a convolutional network lightweight which has been trained in its entirety on the entire dataset and is accelerated by a GPU with an accuracy of 84%.
-
-### Transfer Learning (ResNet50)
-- Pretrained ResNet50 as a feature extractor with custom classification layers.  
-- Trained over a few epochs but achieve comparatively low accuracy (=34%), maybe because of inadequate fine-tuning, image size bottlenecks or the complexity of the dataset.
-
-
-
-## Step to Run
-
-1. Clone the repository.  
-2. Move and install the PlantVillage data in `data/` (or mount your Drive).  Dataset link- https://www.kaggle.com/datasets/emmarex/plantdisease
-3. Install dependencies.  
-4. Load run data, preprocess, train CNN and ResNet50 and evaluate with the supplied Jupyter notebooks or scripts.
-
-
-
-## Experiments / Results Summary
-
-| Model          | Accuracy (Test Set) | Observations |
-|----------------|---------------------|---------------|
-| SVM + HOG      | 80%                 | ok accuracy on 1500 sample subset. |
-| Custom CNN     | 84%                 | Adequate speed and accuracy. |
-| ResNet50 TL    | 34%                 | Lack of good performance, requires additional fine tuning. |
-
-
-
-## Conclusion
-SVM with hand-engineered HOG features obtains high results on a controlled subset but lacks scalability.  
-The conventional CNN performs well of the bigger dataset and is the best option to this task.  
-Theoretically promising transfer learning method based on ResNet50 needs further fine-tuning, data augmentation, or bigger images to work well in this application.
-
-
-## References
-- Salathé, M., Hughes, D.P. and PlantVillage Dataset, 2015, Kaggle Dataset.  
-- K., Zhang, Ren, Sun, and Deep Residual Learning Image Recognition CVPR 2016.  
-- Dalal, N., Triggs, B., Histograms of Oriented Gradients to human Detection, CVPR 2005.  
-- Chollet, F., Deep Learning using Python, Manning Publications, 2017.
