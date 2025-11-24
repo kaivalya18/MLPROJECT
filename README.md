@@ -1,13 +1,14 @@
+Okay, here's the rewritten text, aiming for a more human and less AI-sounding tone:
 
-# 🌱 **Plant Disease Image Classification using SVM, CNN & ResNet50 (Deep Learning & Computer Vision)**
+# 🌱 **Plant Disease Image Classification: SVM, CNN &amp; ResNet50 (Deep Learning &amp; Computer Vision)**
 
-This project implements and compares three different approaches for classifying plant leaf diseases using the **PlantVillage dataset**:
+This project tries out three ways to figure out plant leaf diseases using the **PlantVillage dataset**:
 
-1. **SVM with HOG (Hand-Engineered Features)**
-2. **Custom Convolutional Neural Network (CNN)**
-3. **Transfer Learning using ResNet50**
+1.  **SVM with HOG (Using Basic Image Features)**
+2.  **A Simple Neural Network (CNN)**
+3.  **Using a Pre-Made Network (ResNet50)**
 
-The goal is to evaluate classical machine learning methods vs. deep learning architectures in terms of **accuracy**, **scalability**, **computational efficiency**, and **real-world applicability**.
+The main thing is to see if older methods compare to newer deep learning methods when it comes to how well they work (**accuracy**), how much they can handle (**scalability**), how fast they are (**computational efficiency**), and if they're useful in the real world.
 
 ---
 
@@ -16,80 +17,80 @@ The goal is to evaluate classical machine learning methods vs. deep learning arc
 **PlantVillage Dataset**
 Kaggle Link: [https://www.kaggle.com/datasets/emmarex/plantdisease](https://www.kaggle.com/datasets/emmarex/plantdisease)
 
-* Contains **54,000+** high-quality leaf images
-* Covers **38 different plant disease classes**
-* Categories include:
+*   Over **54,000** good quality leaf pictures
+*   **38** kinds of plant diseases
+*   Includes:
 
-  * Apple, Tomato, Potato, Corn, Grape, etc.
-  * Diseases like Late Blight, Leaf Mold, Septoria, Early Blight, etc.
+    *   Apple, Tomato, Potato, Corn, Grape, etc.
+    *   Diseases like Late Blight, Leaf Mold, Septoria, Early Blight, etc.
 
-Dataset includes both **healthy** and **diseased leaves**, making it ideal for supervised image classification tasks.
-
----
-
-# 🧹 **Data Preprocessing**
-
-✔ Images resized to **64 × 64 pixels**
-✔ Converted to **RGB** (for CNN/ResNet50) and **grayscale** (for HOG)
-✔ Label encoding using **LabelEncoder()**
-✔ Dataset split:
-
-* **Train**
-* **Validation**
-* **Test**
-
-⚖ **Class imbalance handled** using:
-
-* Stratified splitting
-* Random undersampling in classical SVM experiments
+There are both **healthy** and **sick leaves**, which is good for teaching a computer to tell the difference.
 
 ---
 
-# 🧪 **Methods & Model Architectures**
+# 🧹 **Getting the Data Ready**
+
+✔ Pictures made smaller: **64 × 64 pixels**
+✔ Made sure the pictures had color (**RGB** for CNN/ResNet50) and also made them black and white (for HOG)
+✔ Gave each disease a number using **LabelEncoder()**
+✔ Split the data into:
+
+*   **Train** (to train the model)
+*   **Validation** (to check the model is training well)
+*   **Test** (to evaluate the model)
+
+⚖ **Made sure each disease had about the same number of pictures** by:
+
+*   Splitting carefully
+*   Taking out some pictures of common diseases for the SVM
+
+---
+
+# 🧪 **How We Did It: Models**
 
 ## 1️⃣ **SVM + HOG Features**
 
-A classical Computer Vision–based pipeline:
+This is an older, simple method:
 
-### 🔹 **HOG Feature Extraction**
+### 🔹 **HOG: Figuring Out What's in the Picture**
 
-* Converts image to grayscale
-* Computes gradient intensities
-* Extracts orientation histograms from local patches
-* Produces a flattened feature vector (~1,764 features for 64×64 images)
+*   Makes the image black and white
+*   Figures out how the colors change in the image
+*   Looks at small areas and figures out the main directions of the changes
+*   Turns all this into a list of numbers (~1,764 numbers for each 64x64 picture)
 
 ### 🔹 **SVM Model**
 
-* SVM Kernel: **Linear**
-* Training subset: **1500 balanced samples**
-* Motivation:
+*   SVM is set to use a **Linear** way of separating the data
+*   Only used **1500** pictures that had an even number of each disease
+*   Why?
 
-  * Fast training
-  * Works well on small datasets
-  * Good for baseline comparison
+    *   Trains fast
+    *   Works okay with not many pictures
+    *   Good to compare against other methods
 
-### 🟢 **Accuracy: ~80% on controlled subset**
+### 🟢 **Accuracy: ~80% on a small dataset**
 
-✔ Advantages
+✔ Good things:
 
-* Lightweight & fast
-* Good performance with small datasets
+*   Quick and easy
+*   Works well with a small set of pictures
 
-❌ Limitations
+❌ Bad things:
 
-* Does not scale to large image datasets
-* Cannot learn complex patterns
-* Dependent on feature engineering
+*   Doesn't work as great with many pictures
+*   Can't learn very complicated things
+*   Needs someone to figure out what features to look at
 
 ---
 
-## 2️⃣ **Custom CNN (Convolutional Neural Network)**
+## 2️⃣ **Simple Neural Network (CNN)**
 
-A lightweight CNN built from scratch to train fully on the dataset.
+A basic CNN that we built ourselves lets it learn directly from the images.
 
-### 🔨 **Architecture Details**
+### 🔨 **Network Layout**
 
-| Layer                        | Parameters              |
+| Layer                        | What it Does        |
 | ---------------------------- | ----------------------- |
 | **Conv2D** (32 filters, 3×3) | ReLU + BatchNorm        |
 | **Conv2D** (32 filters, 3×3) | ReLU                    |
@@ -103,120 +104,113 @@ A lightweight CNN built from scratch to train fully on the dataset.
 | **Dense (128)**              | ReLU + Dropout(0.5)     |
 | **Output Layer**             | Softmax (#classes = 38) |
 
-### 🔧 **Training Setup**
+### 🔧 **How we Taught It**
 
-* Optimizer: **Adam**
-* Loss Function: **Categorical Crossentropy**
-* Batch Size: **32**
-* Epochs: **15–25**
-* GPU-Accelerated Training
+*   Used **Adam** to improve it little by little
+*   Tried to make it get the right answer with **Categorical Crossentropy**
+*   Looked at **32** pictures at a time
+*   Did this **15–25** times
+*   Used a fast computer chip (**GPU**)
 
-### 🟢 **Accuracy Achieved: ~84% (Test Set)**
+### 🟢 **Accuracy: ~84% (Test Set)**
 
-✔ Learns feature hierarchies
-✔ Good balance of speed & accuracy
-✔ Performs significantly better than SVM
+✔ Good at learning what to look for
+✔ Good mix of speed and accuracy
+✔ Better than the older method
 
-❌ Can overfit if augmentation is not applied
-❌ Image size (64×64) limits representational power
+❌ Can get too specific if you don't change the images up a bit
+❌ Working with small images (64x64) limits what it can learn
 
 ---
 
-## 3️⃣ **Transfer Learning – ResNet50**
+## 3️⃣ **Using a Pre-Made Deep Learning Model – ResNet50**
 
-Used as a feature extractor + small custom classification head.
+Used a ready-made network to understand the pictures.
 
-### 🧱 **Architecture**
+### 🧱 **How It's Set Up**
 
-* Pretrained on **ImageNet**
-* Base model: **ResNet50 (frozen)**
-* Input size: **224 × 224** (resized from 64 × 64 → likely suboptimal)
-* Custom Head:
+*   Learned basic image stuff from **ImageNet**
+*   Used **ResNet50 (but didn't change it much)**
+*   Pictures were **224 × 224** (had to make them bigger from 64 × 64 -&gt; which probably wasn't ideal)
+*   Added a simple head:
 
-  * GlobalAveragePooling2D
-  * Dense(256, ReLU)
-  * Dropout(0.5)
-  * Dense(number_of_classes, Softmax)
+    *   GlobalAveragePooling2D
+    *   Dense(256, ReLU)
+    *   Dropout(0.5)
+    *   Dense(number_of_classes, Softmax)
 
-### ⚠️ Observed Problems
+### ⚠️ What Went Wrong
 
-❗ Using 64×64 images and upscaling results in major **low-resolution artifacts**
-❗ Very few epochs, limited fine-tuning
-❗ Large domain gap between plant leaves vs. ImageNet objects
+❗ Making the pictures bigger (from 64x64) made them look **blurry**
+❗ Didn't train it enough
+❗ Plant leaves are very different from what ImageNet knows
 
 ### 🔴 **Accuracy: ~34%**
 
-❗ Performs worst among all models
-❗ Undertrained + insufficient fine-tuning
+❗ Worst of all the methods
+❗ Didn't train it enough
 
 ---
 
-# 🔬 **Experiment Results Summary**
+# 🔬 **Results**
 
-| Model                          | Test Accuracy | Notes                                                      |
-| ------------------------------ | ------------- | ---------------------------------------------------------- |
-| **SVM + HOG**                  | **80%**       | High accuracy for small fixed dataset, not scalable        |
-| **Custom CNN**                 | **84%**       | Best performer overall; lightweight & robust               |
-| **ResNet50 Transfer Learning** | **34%**       | Underperformer; needs proper fine-tuning and larger images |
-
----
-
-# 🏁 **How to Run the Project**
-
-1. **Clone the repository**
-
-   ```bash
-   git clone <repository-url>
-   ```
-
-2. **Download the PlantVillage dataset**
-   Place in:
-
-   ```
-   data/
-   ```
-
-3. **Install dependencies**
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Run Jupyter Notebooks / Scripts**
-
-   * Preprocessing
-   * CNN Training
-   * ResNet50 Fine-tuning
-   * Evaluation Scripts
+| Model                          | Test Accuracy | Notes                                                        |
+| ------------------------------ | ------------- | ------------------------------------------------------------ |
+| **SVM + HOG**                  | **80%**       | Good for a fixed set of pictures, but doesn't scale up well |
+| **Simple CNN**                 | **84%**       | Best one overall; quick and accurate                         |
+| **ResNet50** | **34%**       | Not so good; needs more training and better pictures   |
 
 ---
 
-# 📊 **Why ResNet50 Performed Poorly (Important Insight)**
+# 🏁 **How to Run This Yourself**
 
-✔ **Mismatched input size (64×64 → 224×224)**
-✔ **Not enough training epochs**
-✔ **No data augmentation**
-✔ **Frozen layers prevent domain adaptation**
-✔ **Plant leaves textures differ drastically from ImageNet objects**
+1.  **Get the code**
+
+    ```bash
+    git clone &lt;(https://github.com/kaivalya18/MLPROJECT/tree/main)&gt;
+    ```
+
+2.  **Get the PlantVillage pictures**
+3.  **Install what you need**
+
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Run the code**
+
+    *   Preprocessing
+    *   CNN Training
+    *   Fine-tuning with ResNet50
+    *   Scripts to see how well the models did
+
+---
+
+# 📊 **Why ResNet50 Didn't Work Well**
+
+✔  **Pictures were too small (had to blow them up)**
+✔  **Didn't train it long enough**
+✔  **Didn't change the pictures to help it learn**
+✔  **Didn't let it really learn about plant leaves**
+✔  **Plant leaves look different than what it's used to (from ImageNet)**
 
 ---
 
 # 📘 **Conclusion**
 
-* **SVM + HOG** provides a strong classical baseline but fails on large-scale image learning tasks.
-* **Custom CNN** gives the best performance (84%) due to its ability to learn hierarchical features directly from pixels.
-* **Transfer Learning with ResNet50**, although powerful, performs poorly due to inadequate fine-tuning and low input resolution.
+*   **SVM + HOG** is a good starting point, but can't handle lots of pictures.
+*   **The basic CNN** did the best (84%) because it could learn what was important from the pictures.
+*   **ResNet50** didn't do well because we didn't train it enough, and the pictures weren't great.
 
-Final verdict:
-👉 **Custom CNN** is optimal for this project given dataset size, preprocessing, and input resolution.
+Basically:
+
+👉 **The basic CNN** is the best for this project since the dataset size, how we processed the data, and the picture quality made it more suitable for this model.
 
 ---
 
 # 📚 **References**
 
-1. PlantVillage Dataset, Hughes & Salathé, Kaggle, 2015
-2. Kaiming He, Zhang, Ren & Sun – *Deep Residual Learning for Image Recognition*, CVPR 2016
-3. Dalal & Triggs – *Histograms of Oriented Gradients*, CVPR 2005
-4. François Chollet – *Deep Learning with Python*, Manning Publications
-
-
+1.  PlantVillage Dataset, Hughes &amp; Salathé, Kaggle, 2015
+2.  Kaiming He, Zhang, Ren &amp; Sun – *Deep Residual Learning for Image Recognition*, CVPR 2016
+3.  Dalal &amp; Triggs – *Histograms of Oriented Gradients*, CVPR 2005
+4.  François Chollet – *Deep Learning with Python*, Manning Publications
