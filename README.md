@@ -86,7 +86,7 @@ This is an older, simple method:
 
 ## 2️⃣ **Simple Neural Network (CNN)**
 
-A basic CNN that we built ourselves lets it learn directly from the images.
+A basic CNN that I built ourselves lets it learn directly from the images.
 
 ### 🔨 **Network Layout**
 
@@ -104,7 +104,7 @@ A basic CNN that we built ourselves lets it learn directly from the images.
 | **Dense (128)**              | ReLU + Dropout(0.5)     |
 | **Output Layer**             | Softmax (#classes = 38) |
 
-### 🔧 **How we Taught It**
+### 🔧 **How I Taught It**
 
 *   Used **Adam** to improve it little by little
 *   Tried to make it get the right answer with **Categorical Crossentropy**
@@ -167,7 +167,7 @@ Used a ready-made network to understand the pictures.
 1.  **Get the code**
 
     ```bash
-    git clone &lt;(https://github.com/kaivalya18/MLPROJECT/tree/main)&gt;
+    git clone (https://github.com/kaivalya18/MLPROJECT/tree/main);
     ```
 
 2.  **Get the PlantVillage pictures**
@@ -200,11 +200,11 @@ Used a ready-made network to understand the pictures.
 
 *   **SVM + HOG** is a good starting point, but can't handle lots of pictures.
 *   **The basic CNN** did the best (84%) because it could learn what was important from the pictures.
-*   **ResNet50** didn't do well because we didn't train it enough, and the pictures weren't great.
+*   **ResNet50** didn't do well because I didn't train it enough, and the pictures weren't great.
 
 Basically:
 
-👉 **The basic CNN** is the best for this project since the dataset size, how we processed the data, and the picture quality made it more suitable for this model.
+👉 **The basic CNN** is the best for this project since the dataset size, how I processed the data, and the picture quality made it more suitable for this model.
 
 ---
 
